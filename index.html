@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Descubra a sua casa de Hogwarts com o Chapéu Seletor interativo. Clique no chapéu para ser sorteado entre Grifinória, Sonserina, Corvinal e Lufa-Lufa.">
+  <title>Chapéu Seletor</title>
+  <style>
+    body{
+      background-color: #3C4A5E; /* Cor ciano-azul */
+      text-align: center; /* Centralizar todo o conteúdo com text-align */
+      padding: 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1, h2 { /* Estilizar títulos com fonte serifada, cor dourada (#E5C364) e estilo itálico */ 
+      font-family: 'Georgia', serif;
+      color: #E5C364; /* Cor dourada */
+      font-style: italic;
+    }
+
+    p {
+      font-family: 'Times New Roman', Times, serif; /* Fonte Times */
+      color: #E5C364; /* Cor dourada */
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    img {
+      display: block;
+      margin: 20px auto; /* Centralizar imagens */
+    }
+
+    #chapeu {
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    #chapeu:hover {
+      transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+    }
+  </style>
+</head>
+<body>
+  <h1>Você chegou em Hogwarts!</h1>
+
+  <!-- Inserir imagem do brasão de Hogwarts com largura 200px -->
+  <img src="Mídias/Brasão de Hogwarts.jpg" width="200" alt="Brasão de Hogwarts">
+
+  <p id="introdução">
+    O universo de Hogwarts, a célebre Escola de Magia e Bruxaria, é um cenário de encantamento e mistério onde jovens bruxos desenvolvem seus poderes e moldam seu caráter.
+    Ao chegarem ao castelo, os alunos são designados pelo Chapéu Seletor para uma das quatro casas fundadoras, cada uma representando virtudes específicas: a Grifinória é o lar dos corajosos e cavalheirescos, a Sonserina acolhe aqueles que possuem grande ambição e astúcia, a Corvinal privilegia a inteligência e a criatividade, enquanto a Lufa-Lufa valoriza a lealdade, a paciência e o trabalho árduo. 
+    Esse sistema não apenas organiza a vida acadêmica e as competições, como a Taça das Casas e o Quadribol, mas também cria laços de fraternidade que perduram enquanto os estudantes aprendem a dominar feitiços e poções em um mundo repleto de magia.
+  </p>
+
+  <!-- Título para introduzir a interação -->
+  <h2>Vamos descobrir a sua casa?</h2>
+
+  <!-- Mensagem explicando que é necessário clicar no chapéu -->
+  <p>Clique no chapéu para descobrir a sua casa!</p>
+
+  <!-- Imagem do chapéu seletor com evento de clique chamando a função casa() -->
+  <img src="Mídias/Chapéu Seletor.jpg" width="300" id="chapeu" alt="Chapéu Seletor" role="button" aria-pressed="false">
+
+  <!-- Título que será atualizado com o nome da casa (visível) -->
+  <h2 id="casaEscolhida" aria-live="polite">Clique no chapéu</h2>
+
+  <!-- Mensagem que será atualizada com o nome da casa -->
+  <div id="Mensagem" aria-live="assertive" style="min-height: 3em; margin-top: 10px;">&nbsp;</div>
+
+  <!-- Imagem que será atualizada com o brasão da casa -->
+  <img id="imagemCasa" src="" width="200" style="margin-top: 20px;" alt="Emblema da casa">
+
+  <!-- Botão para tentar novamente (melhora de UX) -->
+  <div style="margin-top: 12px;">
+    <button id="btnRefazer" style="padding: 8px 14px; font-size: 16px; cursor: pointer;">Descobrir novamente</button>
+  </div>
+
+  <script>
+    // Função que atualiza visualmente a página com a casa sorteada
+    function aplicarCasa(nome, mensagem, imgSrc, bgColor, textColor = '#000'){
+      document.getElementById('casaEscolhida').textContent = nome
+      const msg = document.getElementById('Mensagem')
+      msg.textContent = mensagem
+      const img = document.getElementById('imagemCasa')
+      img.setAttribute('src', imgSrc)
+      document.body.style.backgroundColor = bgColor
+      // ajustar contraste do parágrafo de introdução
+      const intro = document.getElementById('introdução')
+      intro.style.color = textColor
+    }
+
+    function casa(){
+      const btn = document.getElementById('btnRefazer')
+      const chapeu = document.getElementById('chapeu')
+      // prevenir múltiplos cliques
+      btn.disabled = true
+      chapeu.setAttribute('aria-pressed','true')
+      document.getElementById('casaEscolhida').textContent = 'O Chapéu está a pensar...'
+      document.getElementById('Mensagem').textContent = 'Hmm... examinando sua cabeça...'
+
+      // pequena animação/espera para melhor UX
+      setTimeout(()=>{
+        const númerosAleatórios = Math.floor(Math.random() * 4)
+        switch(númerosAleatórios){
+          case 0:
+            aplicarCasa('Grifinória!', 'Hmm, difícil, muito difícil. Abundância de coragem, vejo...','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRgPV2V4lZvOz3P-Yj2gSm9MRZh7KizCti5A&s','gold','#000')
+            break
+          case 1:
+            aplicarCasa('Sonserina!', 'E, talvez, a Sonserina faça seus verdadeiros amigos...','https://static.wikia.nocookie.net/harrypotter/images/a/a5/Slytherincostodarms.png/revision/latest/scale-to-width-down/216?cb=20210421190019&path-prefix=pt-br','#0f6b2f','#fff')
+            break
+          case 2:
+            aplicarCasa('Corvinal!', 'Ou será na velha e sábia Corvinal, a casa dos que têm a mente sempre alerta...','https://static.wikia.nocookie.net/harrypotter/images/0/03/184-1840811_ravenclaw-crest-harry-potter-harry-potter-ravenclaw-house.png/revision/latest?cb=20210421183049&path-prefix=pt-br','#1f4f8b','#fff')
+            break
+          default:
+            aplicarCasa('Lufa-Lufa!', 'Quem sabe a Lufa-Lufa seja a sua casa, onde os que ali habitam são justos e leais...','https://static.wikia.nocookie.net/harrypotter/images/b/b2/453-4537332_yellow-banner-clipart.png/revision/latest?cb=20210421191904&path-prefix=pt-br','#f2d33a','#000')
+        }
+        // reabilitar botão após animação
+        btn.disabled = false
+        chapeu.setAttribute('aria-pressed','false')
+      }, 900) // 900ms de espera para simular o chapéu pensando
+    }
+
+    // ligar eventos
+    document.getElementById('chapeu').addEventListener('click', casa)
+    document.getElementById('btnRefazer').addEventListener('click', casa)
+
+    // suporte a teclado (Enter / Espaço) para a imagem do chapéu
+    document.getElementById('chapeu').addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault(); casa();
+      }
+    })
+  </script>
+</body>
+</html>
